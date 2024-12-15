@@ -1,6 +1,9 @@
+// netlify/functions/chat.js
+
+const fetch = require('node-fetch'); // Ensure node-fetch is installed
+
 exports.handler = async (event) => {
   const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Your Cargo site URL
-
   const origin = event.headers.origin;
 
   // Handle preflight requests
