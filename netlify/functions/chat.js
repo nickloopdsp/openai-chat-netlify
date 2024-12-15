@@ -72,6 +72,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     };
@@ -80,6 +81,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ error: "Internal Server Error" })
     };
