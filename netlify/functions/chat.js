@@ -1,5 +1,5 @@
 exports.handler = async (event) => {
-  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Add your Cargo site URL here
+  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Your Cargo site URL
 
   const origin = event.headers.origin;
 
