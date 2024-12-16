@@ -38,7 +38,8 @@ exports.handler = async (event) => {
   let body;
   try {
     body = JSON.parse(event.body);
-  } catch {
+  } catch (error) {
+    console.error("Invalid JSON:", error);
     return {
       statusCode: 400,
       headers: {
@@ -95,7 +96,7 @@ exports.handler = async (event) => {
       body: JSON.stringify(data)
     };
   } catch (error) {
-    console.error("Error:", error); // Log the error for debugging
+    console.error("Internal Server Error:", error); // Log the error for debugging
     return {
       statusCode: 500,
       headers: {
