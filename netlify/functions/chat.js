@@ -3,8 +3,11 @@
 const fetch = require('node-fetch'); // Ensure node-fetch is installed
 
 exports.handler = async (event) => {
-  const allowedOrigins = ['https://loopv1-copy.cargo.site/']; // Replace with your actual Cargo site URL
+  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Replace with your actual Cargo site URL
   const origin = event.headers.origin;
+
+  // Log the incoming origin for debugging
+  console.log(`Incoming request from origin: ${origin}`);
 
   // Handle preflight requests
   if (event.httpMethod === 'OPTIONS') {
@@ -69,6 +72,19 @@ exports.handler = async (event) => {
     });
 
     const data = await response.json();
+
+    // Check if the response is ok
+    if (!response.ok) {
+      console.error("OpenAI API Error:", data);
+      return {
+        statusCode: response.status,
+        headers: {
+          'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ error: data.error || "OpenAI API Error" })
+      };
+    }
 
     return {
       statusCode: 200,
