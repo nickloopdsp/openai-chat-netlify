@@ -1,15 +1,14 @@
 // netlify/functions/chat.js
 
-const fetch = require('node-fetch'); // Ensure node-fetch is installed
+const fetch = require('node-fetch'); // Import node-fetch
 
 exports.handler = async (event) => {
-  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Replace with your actual Cargo site URL
+  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Your Cargo site URL
   const origin = event.headers.origin;
 
-  // Log the incoming origin for debugging
   console.log(`Incoming request from origin: ${origin}`);
 
-  // Handle preflight requests
+  // Handle preflight (OPTIONS) requests
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -60,14 +59,15 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Call OpenAI Assistant API using the assistant's ID
-    const response = await fetch(`https://api.openai.com/v1/assistants/asst_OZ8WpGNkuUv3sPH3wYPLVTFR/completions`, {
+    // Call OpenAI Chat Completion API
+    const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
+        model: "gpt-3.5-turbo", // or your desired model
         messages: body.messages
       })
     });
