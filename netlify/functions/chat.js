@@ -3,7 +3,7 @@
 const fetch = require('node-fetch'); // Ensure node-fetch is installed
 
 exports.handler = async (event) => {
-  const allowedOrigins = ['https://loopv1-copy.cargo.site']; // Your Cargo site URL
+  const allowedOrigins = ['https://loopv1-copy.cargo.site/']; // Replace with your actual Cargo site URL
   const origin = event.headers.origin;
 
   // Handle preflight requests
@@ -56,15 +56,14 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Call OpenAI API
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    // Call OpenAI Assistant API using the assistant's ID
+    const response = await fetch(`https://api.openai.com/v1/assistants/asst_OZ8WpGNkuUv3sPH3wYPLVTFR/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
         messages: body.messages
       })
     });
@@ -80,6 +79,7 @@ exports.handler = async (event) => {
       body: JSON.stringify(data)
     };
   } catch (error) {
+    console.error("Error:", error); // Log the error for debugging
     return {
       statusCode: 500,
       headers: {
